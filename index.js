@@ -7,29 +7,29 @@ const http = require('http');
 const sio = require('socket.io');
 
 class Counter extends EventEmitter {
-	constructor() {
-		super();
+  constructor() {
+    super();
 
-		this.score = {
-			wins: 0,
-			losses: 0,
-		};
-	}
+    this.score = {
+      wins: 0,
+      losses: 0,
+    };
+  }
 
-	incrWins(v = 1) {
-		this.score.wins += v;
-		this.emit('change', this.score);
-	}
+  incrWins(v = 1) {
+    this.score.wins += v;
+    this.emit('change', this.score);
+  }
 
-	incrLosses(v = 1) {
-		this.score.losses += v;
-		this.emit('change', this.score);
-	}
+  incrLosses(v = 1) {
+    this.score.losses += v;
+    this.emit('change', this.score);
+  }
 
-	reset(v) {
-		this.score.wins = this.score.losses = 0;
-		this.emit('change', this.score);
-	}
+  reset(v) {
+    this.score.wins = this.score.losses = 0;
+    this.emit('change', this.score);
+  }
 }
 
 var counter = new Counter();
@@ -37,15 +37,15 @@ var counter = new Counter();
 var api = express().use(bodyParser);
 
 api.post('/reset', function(req, res) {
-	counter.reset();
+  counter.reset();
 });
 
 api.post('/incr-wins', function(req, res) {
-	counter.incrWins(req.body.value);
+  counter.incrWins(req.body.value);
 });
 
 api.post('/incr-losses', function(req, res) {
-	counter.incrLosses(req.body.value);
+  counter.incrLosses(req.body.value);
 });
 
 var app = express();
@@ -59,16 +59,16 @@ app.get('/', function(req, res) {
 app.use('/api', api);
 
 io.on('connection', function(socket) {
-	function sendScore() {
-		socket.emit('update', counter.score);
-	}
-	sendScore();
+  function sendScore() {
+    socket.emit('update', counter.score);
+  }
+  sendScore();
 
-	socket.on('disconnect', function() {
-		counter.removeListener('change', sendScore);
-	});
+  socket.on('disconnect', function() {
+    counter.removeListener('change', sendScore);
+  });
 
-	counter.on('change', sendScore);
+  counter.on('change', sendScore);
 });
 
 server.listen(3030);

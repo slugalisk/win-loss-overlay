@@ -1,43 +1,43 @@
 <html>
-	<head>
-		<title>Score memes</title>
-		<style>
-		* {
-			margin: 0;
-			padding: 0;
-			list-style: none;
-		}
+  <head>
+    <title>Score memes</title>
+    <style>
+    * {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
 
-		ul {
-			margin: 20px;
-			font-size: 16px;
-			font-family: Arial, Helvetica, sans-serif;
-		}
-		</style>
-	</head>
-	<body>
-		<ul>
-			<li>
-					<strong>Wins: </strong>
-					<span id="wins">0</span>
-			</li>
-			<li>
-				<strong>Losses: </strong>
-				<span id="losses">0</span>
-			</li>
-		</ul>
+    ul {
+      margin: 20px;
+      font-size: 16px;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+    </style>
+  </head>
+  <body>
+    <ul>
+      <li>
+          <strong>Wins: </strong>
+          <span id="wins">0</span>
+      </li>
+      <li>
+        <strong>Losses: </strong>
+        <span id="losses">0</span>
+      </li>
+    </ul>
 
-		<script src="/socket.io/socket.io.js"></script>
-		<script>
-			var socket = io();
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      var socket = io();
 
-			var wins = document.getElementById('wins');
-			var losses = document.getElementById('losses');
+      var wins = document.getElementById('wins');
+      var losses = document.getElementById('losses');
 
-			socket.on('update', function(scores) {
-				wins.innerText = scores.wins.toLocaleString();
-				losses.innerText = scores.losses.toLocaleString();
-			});
-		</script>
-	</body>
+      socket.on('update', function(scores) {
+        wins.innerText = scores.wins.toLocaleString();
+        losses.innerText = scores.losses.toLocaleString();
+      });
+    </script>
+  </body>
 </html>
